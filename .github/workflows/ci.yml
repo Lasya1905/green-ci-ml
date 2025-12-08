@@ -9,14 +9,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
-          cache: 'pip'
+          python-version: "3.10"
 
       - name: Install dependencies
         run: pip install -r requirements.txt
@@ -24,14 +23,25 @@ jobs:
       - name: Run tests
         run: pytest
 
-      - name: Measure energy (Eco CI)
+      # Start energy measurement
+      - name: Start measurement
         uses: green-coding-berlin/eco-ci-energy-estimation@v3
         with:
-          comment_summary: false
-          write_results_to_file: true
-          output_file: eco_report.json
+          task: start-measurement
 
-      - name: Upload eco report
+      # Get energy results
+      - name: Get results
+        id: energy
+        uses: green-coding-berlin/eco-ci-energy-estimation@v3
+        with:
+          task: get-measurement
+
+      # Save result as file
+      - name: Save eco report
+        run: echo "${{ steps.energy.outputs.measurement }}" > eco_report.json
+
+      # Upload artifact
+      - name: Upload eco report artifact
         uses: actions/upload-artifact@v4
         with:
           name: eco-report
