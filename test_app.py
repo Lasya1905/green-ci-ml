@@ -15,3 +15,6 @@ def test_modulus():
 
 def test_exponent():
     assert 3 ** 4 == 81
+
+def test_floor_divide():
+    assert 22 // 7 == 3
