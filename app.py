@@ -3,7 +3,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return "Green CI/CD Energy Project"
+    return "CI/CD Green Energy Project"
 
 if __name__ == "__main__":
     app.run()
