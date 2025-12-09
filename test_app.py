@@ -9,3 +9,6 @@ def test_multiply():
 
 def test_divide():
     assert 81 / 9 == 9
+
+def test_modulus():
+    assert 20 % 6 == 2
