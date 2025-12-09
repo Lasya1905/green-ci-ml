@@ -1,2 +1,2 @@
 def test_add():
-    assert 1 + 3 == 4
+    assert 1 + 7 == 8
