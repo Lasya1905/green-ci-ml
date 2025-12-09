@@ -1,2 +1,2 @@
 def test_add():
-    assert 1 + 7 == 8
+    assert 11 + 7 == 18
