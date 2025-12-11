@@ -3,16 +3,17 @@ name: Energy Aware CI/CD
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:   # optional manual trigger
 
 jobs:
   build-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -20,29 +21,35 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      # -----------------------------------------
-      # START ENERGY MEASUREMENT
-      # -----------------------------------------
+      # --- START measurement ---
       - name: Start measurement
         uses: green-coding-berlin/eco-ci-energy-estimation@v3
         with:
           task: start-measurement
 
-      # 🔥 THIS IS WHAT GETS MEASURED 🔥
-      - name: Run tests (inside measurement)
-        run: pytest
+      # --- This block is what will be measured ---
+      - name: Run tests (measured)
+        run: |
+          pytest -q
+          echo "tests done"
 
-      # -----------------------------------------
-      # STOP ENERGY MEASUREMENT AND GET RESULTS
-      # -----------------------------------------
+      # --- GET measurement (must come after measured work) ---
       - name: Get results
         id: energy
         uses: green-coding-berlin/eco-ci-energy-estimation@v3
         with:
           task: get-measurement
 
+      - name: Print measurement (for debugging)
+        run: |
+          echo "---- MEASUREMENT OUTPUT START ----"
+          echo "${{ steps.energy.outputs.measurement }}"
+          echo "---- MEASUREMENT OUTPUT END ----"
+
       - name: Save eco report
-        run: echo "${{ steps.energy.outputs.measurement }}" > eco_report.json
+        run: |
+          printf "%s" "${{ steps.energy.outputs.measurement }}" > eco_report.json
+          echo "Saved eco_report.json (size: $(wc -c < eco_report.json) bytes)"
 
       - name: Upload eco report artifact
         uses: actions/upload-artifact@v4
