@@ -12,17 +12,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run pytest inside eco-ci container
-        id: runenergy
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install requirements
+        run: pip install -r requirements.txt
+
+      # The ONLY correct way to measure energy
+      - name: Run workload with energy measurement
+        id: eco
         uses: green-coding-berlin/eco-ci-energy-estimation@v3
         with:
           task: run-workload
           workload-command: pytest
 
       - name: Save eco report
-        run: echo "${{ steps.runenergy.outputs.measurement }}" > eco_report.json
+        run: echo '${{ steps.eco.outputs.measurement }}' > eco_report.json
 
-      - name: Upload eco report artifact
+      - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: eco-report
