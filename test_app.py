@@ -1,2 +1,5 @@
+import time
+
 def test_dummy():
-    assert 1 == 1
+    time.sleep(3)
+    assert True
