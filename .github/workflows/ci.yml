@@ -20,25 +20,31 @@ jobs:
       - name: Install requirements
         run: pip install -r requirements.txt
 
-      # Step 1: Start measurement
+      # REQUIRED: Eco-CI needs Docker
+      - name: Start Docker
+        run: |
+          sudo systemctl start docker
+          sudo docker info
+
+      # Step 1: Start eco measurement
       - name: Start energy measurement
         id: start
         uses: green-coding-berlin/eco-ci-energy-estimation@v3
         with:
           task: start-measurement
 
-      # Step 2: Run pytest normally
+      # Step 2: Run tests
       - name: Run tests
         run: pytest --maxfail=1 --disable-warnings -q
 
-      # Step 3: Get measurement
+      # Step 3: Fetch results
       - name: Get energy results
         id: result
         uses: green-coding-berlin/eco-ci-energy-estimation@v3
         with:
           task: get-measurement
 
-      # Step 4: Save JSON to file
+      # Step 4: Save eco report
       - name: Save eco report
         run: echo '${{ steps.result.outputs.measurement }}' > eco_report.json
 
