@@ -33,6 +33,7 @@ jobs:
           task: start-measurement
           co2-source: "electricitymaps"
           region: "IN"
+          co2-value: 700
 
       # ─── RUN YOUR TESTS ───────────────────────────────────
       - name: Run tests
@@ -48,6 +49,7 @@ jobs:
           label: "pytest energy usage"
           co2-source: "electricitymaps"
           region: "IN"
+          co2-value: 700
 
       # ─── OPTIONAL: display results in job summary ───────────
       - name: Display eco results
