@@ -20,27 +20,30 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Run tests
-        run: pytest
-
-      # Start energy measurement
+      # -----------------------------------------
+      # START ENERGY MEASUREMENT
+      # -----------------------------------------
       - name: Start measurement
         uses: green-coding-berlin/eco-ci-energy-estimation@v3
         with:
           task: start-measurement
 
-      # Get energy results
+      # 🔥 THIS IS WHAT GETS MEASURED 🔥
+      - name: Run tests (inside measurement)
+        run: pytest
+
+      # -----------------------------------------
+      # STOP ENERGY MEASUREMENT AND GET RESULTS
+      # -----------------------------------------
       - name: Get results
         id: energy
         uses: green-coding-berlin/eco-ci-energy-estimation@v3
         with:
           task: get-measurement
 
-      # Save result as file
       - name: Save eco report
         run: echo "${{ steps.energy.outputs.measurement }}" > eco_report.json
 
-      # Upload artifact
       - name: Upload eco report artifact
         uses: actions/upload-artifact@v4
         with:
