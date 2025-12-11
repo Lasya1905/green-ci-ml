@@ -12,37 +12,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install dependencies
-        run: pip install -r requirements.txt
-
-      # Start energy measurement BEFORE running tests
-      - name: Start measurement
+      - name: Run pytest inside eco-ci container
+        id: runenergy
         uses: green-coding-berlin/eco-ci-energy-estimation@v3
         with:
-          task: start-measurement
-
-      # This is what we want to measure
-      - name: Run tests
-        run: pytest
-
-      # Capture energy results
-      - name: Get results
-        id: energy
-        uses: green-coding-berlin/eco-ci-energy-estimation@v3
-        with:
-          task: get-measurement
+          task: run-workload
+          workload-command: pytest
 
       - name: Save eco report
-        run: echo "${{ steps.energy.outputs.measurement }}" > eco_report.json
+        run: echo "${{ steps.runenergy.outputs.measurement }}" > eco_report.json
 
       - name: Upload eco report artifact
         uses: actions/upload-artifact@v4
         with:
           name: eco-report
           path: eco_report.json
-      
