@@ -20,23 +20,40 @@ jobs:
       - name: Install requirements
         run: pip install -r requirements.txt
 
-      # REQUIRED: Docker must be running
       - name: Start Docker
         run: |
           sudo systemctl start docker
           sudo docker info
 
-      # 🟩 Run pytest INSIDE the measurement container
-      - name: Measure energy while running tests
-        id: eco
+      # ─── START measurement ─────────────────────────────────
+      - name: Start energy measurement
+        id: eco_start
         uses: green-coding-berlin/eco-ci-energy-estimation@v3
         with:
-          task: run-command
-          command: "pytest --maxfail=1 --disable-warnings -q"
+          task: start-measurement
 
-      # Save JSON report
+      # ─── RUN YOUR TESTS ───────────────────────────────────
+      - name: Run tests
+        run: |
+          pytest --maxfail=1 --disable-warnings -q
+
+      # ─── GET measurement ───────────────────────────────────
+      - name: Get energy measurement
+        id: eco_end
+        uses: green-coding-berlin/eco-ci-energy-estimation@v3
+        with:
+          task: get-measurement
+          label: "pytest energy usage"
+
+      # ─── OPTIONAL: display results in job summary ───────────
+      - name: Display eco results
+        uses: green-coding-berlin/eco-ci-energy-estimation@v3
+        with:
+          task: display-results
+
+      # ─── SAVE JSON REPORT ──────────────────────────────────
       - name: Save eco report
-        run: echo '${{ steps.eco.outputs.measurement }}' > eco_report.json
+        run: echo '${{ steps.eco_end.outputs.data-lap-json }}' > eco_report.json
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
