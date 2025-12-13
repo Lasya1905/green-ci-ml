@@ -16,3 +16,7 @@ def test_nested_loops():
         for j in range(2000):
             s += i + j
     assert s > 0
+
+def test_memory():
+    data = [i for i in range(500_000)]
+    assert len(data) > 0
