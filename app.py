@@ -9,9 +9,8 @@ def hello():
 
 @app.route("/compute")
 def compute():
-    time.sleep(2)
-    x = sum(i*i for i in range(300_000))
-    return str(x)
+    data = [i*i for i in range(500_000)]
+    return str(sum(data))
 
 @app.route('/memory')
 def memory():

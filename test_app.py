@@ -33,3 +33,8 @@ def test_mixed():
     time.sleep(2)
     x = sum(i for i in range(500_000))
     assert x > 0
+
+def test_combo():
+    data = [i*i for i in range(700_000)]
+    total = sum(data)
+    assert total > 0
