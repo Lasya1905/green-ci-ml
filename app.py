@@ -9,11 +9,15 @@ def hello():
 
 @app.route("/compute")
 def compute():
-    with open("temp_app.txt", "w") as f:
-        for i in range(300_000):
-            f.write(str(i))
-    return "File written"
-
+    total = 0
+    for i in range(700_000):
+        if i % 3 == 0:
+            total += i
+        elif i % 3 == 1:
+            total -= i
+        else:
+            total += i // 2
+    return str(total)
 
 @app.route('/memory')
 def memory():

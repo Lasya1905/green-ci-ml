@@ -48,3 +48,12 @@ def test_file_io():
         data = f.read()
 
     assert len(data) > 0
+
+def test_branching():
+    count = 0
+    for i in range(500_000):
+        if i % 2 == 0:
+            count += i
+        else:
+            count -= i
+    assert count != 0
