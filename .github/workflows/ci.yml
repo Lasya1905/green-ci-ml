@@ -31,7 +31,7 @@ jobs:
         uses: green-coding-berlin/eco-ci-energy-estimation@v3
         with:
           task: start-measurement
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          send_data: true
 
       # ─── RUN YOUR TESTS ───────────────────────────────────
       - name: Run tests
@@ -45,7 +45,7 @@ jobs:
         with:
           task: get-measurement
           label: "pytest energy usage"
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          send-data: true
 
       # ─── OPTIONAL: display results in job summary ───────────
       - name: Display eco results
