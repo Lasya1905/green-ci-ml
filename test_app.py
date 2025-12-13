@@ -38,3 +38,13 @@ def test_combo():
     data = [i*i for i in range(700_000)]
     total = sum(data)
     assert total > 0
+
+def test_file_io():
+    with open("temp_test.txt", "w") as f:
+        for i in range(200_000):
+            f.write(str(i))
+
+    with open("temp_test.txt", "r") as f:
+        data = f.read()
+
+    assert len(data) > 0
