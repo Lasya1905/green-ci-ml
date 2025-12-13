@@ -1,4 +1,5 @@
 import time
+import math
 
 def test_dummy():
     time.sleep(3)
@@ -20,3 +21,10 @@ def test_nested_loops():
 def test_memory():
     data = [i for i in range(500_000)]
     assert len(data) > 0
+
+
+def test_math():
+    total = 0
+    for i in range(300_000):
+        total += math.sqrt(i)
+    assert total > 0

@@ -1,4 +1,5 @@
 from flask import Flask
+import math
 app = Flask(__name__)
 
 @app.route('/')
@@ -7,11 +8,8 @@ def hello():
 
 @app.route('/compute')
 def compute():
-    s = 0
-    for i in range(1500):
-        for j in range(1500):
-            s += i * j
-    return str(s)
+    total = sum(math.sqrt(i) for i in range(500_000))
+    return str(total)
 
 @app.route('/memory')
 def memory():
