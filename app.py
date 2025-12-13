@@ -1,15 +1,17 @@
 from flask import Flask
 import math
+import time
 app = Flask(__name__)
 
 @app.route('/')
 def hello():
     return "Hello from Energy-Aware CI/CD Project!"
 
-@app.route('/compute')
+@app.route("/compute")
 def compute():
-    total = sum(math.sqrt(i) for i in range(500_000))
-    return str(total)
+    time.sleep(2)
+    x = sum(i*i for i in range(300_000))
+    return str(x)
 
 @app.route('/memory')
 def memory():

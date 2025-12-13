@@ -28,3 +28,8 @@ def test_math():
     for i in range(300_000):
         total += math.sqrt(i)
     assert total > 0
+
+def test_mixed():
+    time.sleep(2)
+    x = sum(i for i in range(500_000))
+    assert x > 0
