@@ -7,10 +7,11 @@ def hello():
 
 @app.route('/compute')
 def compute():
-    x = 0
-    for i in range(500000):
-        x += i
-    return str(x)
+    s = 0
+    for i in range(1500):
+        for j in range(1500):
+            s += i * j
+    return str(s)
 
 @app.route('/memory')
 def memory():

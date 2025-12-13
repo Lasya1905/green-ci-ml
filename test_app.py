@@ -11,8 +11,8 @@ def test_loop():
     assert x > 0
 
 def test_nested_loops():
-    total = 0
+    s = 0
     for i in range(2000):
         for j in range(2000):
-            total += i + j
-    assert total > 0
+            s += i + j
+    assert s > 0
