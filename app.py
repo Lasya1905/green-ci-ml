@@ -12,6 +12,11 @@ def compute():
         x += i
     return str(x)
 
+@app.route('/memory')
+def memory():
+    data = [i for i in range(1_000_000)]
+    return str(len(data))
+
 
 if __name__ == '__main__':
     app.run()

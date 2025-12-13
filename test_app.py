@@ -9,3 +9,10 @@ def test_loop():
     for i in range(100000):
         x += i
     assert x > 0
+
+def test_nested_loops():
+    total = 0
+    for i in range(2000):
+        for j in range(2000):
+            total += i + j
+    assert total > 0
