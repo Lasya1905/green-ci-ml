@@ -31,7 +31,7 @@ jobs:
         uses: green-coding-berlin/eco-ci-energy-estimation@v3
         with:
           task: start-measurement
-          send_data: true
+          send-data: true
 
       # ─── RUN YOUR TESTS ───────────────────────────────────
       - name: Run tests
